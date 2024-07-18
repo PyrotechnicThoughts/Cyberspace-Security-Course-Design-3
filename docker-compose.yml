@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  server:
+    image: ubuntu:latest
+    container_name: server
+    command: /bin/bash -c "apt-get update && apt-get install -y net-tools iputils-ping dsniff iptables && tail -f /dev/null"
+    privileged: true
+    volumes:
+      - ./cmd:/app
+    networks:
+      - mynetwork
+
+  client:
+    image: ubuntu:latest
+    container_name: client
+    command: /bin/bash -c "apt-get update && apt-get install -y net-tools iputils-ping dsniff iptables && tail -f /dev/null"
+    privileged: true
+    volumes:
+      - ./cmd:/app
+    networks:
+      - mynetwork
+
+  middle:
+    image: ubuntu:latest
+    container_name: middle
+    privileged: true
+    volumes:
+      - ./cmd:/app
+    networks:
+      - mynetwork
+    sysctls:
+      - net.ipv4.ip_forward=1
+    command: /bin/bash -c "apt-get update && apt-get install -y net-tools iputils-ping dsniff iptables && echo 1 > /proc/sys/net/ipv4/ip_forward && tail -f /dev/null"
+
+networks:
+  mynetwork:
+    driver: bridge

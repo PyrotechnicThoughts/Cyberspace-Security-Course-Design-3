@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "unistd.h": "c",
+        "getopt_core.h": "c",
+        "types.h": "c",
+        "aes.h": "c",
+        "utils.h": "c",
+        "diffie.h": "c",
+        "stdio.h": "c"
+    }
+}
